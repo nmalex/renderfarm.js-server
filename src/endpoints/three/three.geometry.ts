@@ -36,28 +36,15 @@ class ThreeGeometryEndpoint implements IEndpoint {
             console.log(`GET on ${req.path}`);
 
             let uuid = req.params.uuid;
-            //console.log(`todo: // retrieve geometry ${uuid}`);
 
-            let geometryCache = this._geometryCachePool.FindOne(obj => {
-                return Object.keys(obj.Geometries).indexOf(uuid) !== -1;
-            });
-
-            if (!geometryCache) {
-                res.status(404);
-                res.end(JSON.stringify({ ok: false, message: "geometry cache not found", error: null }, null, 2));
-                return;
-            }
-
-            let geometryBinding = geometryCache.Geometries[uuid];
-            if (!geometryBinding) {
+            let zipFile = this._settings.current.geometryUploadDir + '/' + uuid + '.zip';
+            if (!fs.existsSync(zipFile)) {
                 res.status(404);
                 res.end(JSON.stringify({ ok: false, message: "geometry not found", error: null }, null, 2));
-                return;
             }
 
             res.status(200);
-            // res.end(geometryBinding.ThreeJson.compressed_json);
-            fs.readFile(this._settings.current.geometryUploadDir + '/' + uuid + '.zip', (err, data) => {
+            fs.readFile(zipFile, (err, data) => {
                 if (err) throw err;
                 res.end(data, 'binary');
             });
