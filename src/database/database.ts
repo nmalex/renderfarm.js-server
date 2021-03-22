@@ -55,7 +55,7 @@ export class Database implements IDatabase {
     public async createCollections(): Promise<any> {
         if (!this._client) throw Error("database not connected");
         let db = this._client.db(this._settings.current.databaseName);
-        assert.notEqual(db, null);
+        assert.notStrictEqual(db, null);
 
         let collections = await db.listCollections().toArray();
 
@@ -98,7 +98,7 @@ export class Database implements IDatabase {
     public async dropCollections(): Promise<any> {
         if (!this._client) throw Error("database not connected");
         let db = this._client.db(this._settings.current.databaseName);
-        assert.notEqual(db, null);
+        assert.notStrictEqual(db, null);
 
         let collections = await db.listCollections().toArray();
 
@@ -141,7 +141,7 @@ export class Database implements IDatabase {
     public async dropAllCollections(regex: RegExp): Promise<number> {
         if (!this._client) throw Error("database not connected");
         let db = this._client.db(this._settings.current.databaseName);
-        assert.notEqual(db, null);
+        assert.notStrictEqual(db, null);
 
         let collections = await db.listCollections().toArray();
 
@@ -267,7 +267,7 @@ export class Database implements IDatabase {
         await this.ensureClientConnection();
 
         let db = this._client.db(this._settings.current.databaseName);
-        assert.notEqual(db, null);
+        assert.notStrictEqual(db, null);
 
         if (!apiKey.workgroups[workgroup]) {
             throw new Error("workgroup access denied");
@@ -499,7 +499,7 @@ export class Database implements IDatabase {
         await this.ensureClientConnection();
 
         let db = this._client.db(this._settings.current.databaseName);
-        assert.notEqual(db, null);
+        assert.notStrictEqual(db, null);
 
         let filter = {
             workgroup: workgroup
@@ -518,7 +518,7 @@ export class Database implements IDatabase {
         await this.ensureClientConnection();
 
         let db = this._client.db(this._settings.current.databaseName);
-        assert.notEqual(db, null);
+        assert.notStrictEqual(db, null);
 
         let recentOnlineDate = new Date(Date.now() - 2 * 1000);
         let filter: any = {
@@ -699,7 +699,7 @@ export class Database implements IDatabase {
         await this.ensureClientConnection();
 
         let db = this._client.db(this._settings.current.databaseName);
-        assert.notEqual(db, null);
+        assert.notStrictEqual(db, null);
 
         let obj = await db.collection(this.envCollectionName(collection)).findOne(filter);
         if (obj) {
@@ -713,7 +713,7 @@ export class Database implements IDatabase {
         await this.ensureClientConnection();
 
         let db = this._client.db(this._settings.current.databaseName);
-        assert.notEqual(db, null);
+        assert.notStrictEqual(db, null);
 
         let arr = await db.collection(this.envCollectionName(collection)).find(filter).toArray();
 
@@ -730,11 +730,11 @@ export class Database implements IDatabase {
             }
 
             let db = this._client.db(this._settings.current.databaseName);
-            assert.notEqual(db, null);
+            assert.notStrictEqual(db, null);
 
-            let opt: FindOneAndUpdateOption = { w: "majority", j: true, returnOriginal: false, upsert: false };
+            let opt: FindOneAndUpdateOption<any> = { w: "majority", j: true, returnOriginal: false, upsert: false };
 
-            let callback: MongoCallback<FindAndModifyWriteOpResultObject> = function (error: MongoError, res: FindAndModifyWriteOpResultObject) {
+            let callback: MongoCallback<FindAndModifyWriteOpResultObject<any>> = function (error: MongoError, res: FindAndModifyWriteOpResultObject<any>) {
                 if (res && res.ok === 1 && res.value) {
                     resolve(ctor ? ctor(res.value) : undefined);
                 } else if (error) {
@@ -765,10 +765,10 @@ export class Database implements IDatabase {
             }
 
             let db = this._client.db(this._settings.current.databaseName);
-            assert.notEqual(db, null);
+            assert.notStrictEqual(db, null);
 
             let opt: CollectionInsertOneOptions = { w: "majority", j: true };
-            let callback: MongoCallback<InsertOneWriteOpResult> = function (error: MongoError, res: InsertOneWriteOpResult) {
+            let callback: MongoCallback<InsertOneWriteOpResult<any>> = function (error: MongoError, res: InsertOneWriteOpResult<any>) {
                 if (res && res.result.ok === 1 && res.insertedCount === 1) {
                     resolve(ctor ? ctor(res.ops[0]) : undefined);
                 } else if (error) {
@@ -797,7 +797,7 @@ export class Database implements IDatabase {
             }
 
             let db = this._client.db(this._settings.current.databaseName);
-            assert.notEqual(db, null);
+            assert.notStrictEqual(db, null);
 
             let opt: UpdateOneOptions = { w: "majority", j: true, upsert: true };
             let callback: MongoCallback<UpdateWriteOpResult> = function (error: MongoError, res: UpdateWriteOpResult) {
@@ -830,7 +830,7 @@ export class Database implements IDatabase {
             }
 
             let db = this._client.db(this._settings.current.databaseName);
-            assert.notEqual(db, null);
+            assert.notStrictEqual(db, null);
 
             let opt: UpdateOneOptions = { upsert: false, w: "majority", j: true };
             let callback: MongoCallback<UpdateWriteOpResult> = function (error: MongoError, res: UpdateWriteOpResult) {
@@ -865,7 +865,7 @@ export class Database implements IDatabase {
             }
 
             let db = this._client.db(this._settings.current.databaseName);
-            assert.notEqual(db, null);
+            assert.notStrictEqual(db, null);
 
             let trans = uuidv4();
             if (!setter.$set) setter.$set = {};
@@ -904,7 +904,7 @@ export class Database implements IDatabase {
             }
 
             let db = this._client.db(this._settings.current.databaseName);
-            assert.notEqual(db, null);
+            assert.notStrictEqual(db, null);
 
             let trans = uuidv4();
             if (!setter.$set) setter.$set = {};
@@ -947,9 +947,9 @@ export class Database implements IDatabase {
             }
 
             let db = this._client.db(this._settings.current.databaseName);
-            assert.notEqual(db, null);
+            assert.notStrictEqual(db, null);
 
-            let callback: MongoCallback<FindAndModifyWriteOpResultObject> = function (error: MongoError, res: FindAndModifyWriteOpResultObject) {
+            let callback: MongoCallback<FindAndModifyWriteOpResultObject<any>> = function (error: MongoError, res: FindAndModifyWriteOpResultObject<any>) {
                 if (res && res.ok === 1 && res.value) {
                     resolve(ctor ? ctor(res.value) : undefined);
                 } else if (error) {

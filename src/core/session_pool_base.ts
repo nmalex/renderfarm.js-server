@@ -81,7 +81,7 @@ export abstract class SessionPoolBase<T> implements ISessionPool<T> {
         delete this._items[session.guid];
     }
 
-    protected async abstract onBeforeItemAdd(session: Session, item: T): Promise<boolean>;
-    protected async abstract onBeforeItemRemove(closedSession: Session, item: T): Promise<any>;
+    protected abstract onBeforeItemAdd(session: Session, item: T): Promise<boolean>;
+    protected abstract onBeforeItemRemove(closedSession: Session, item: T): Promise<any>;
 }
 
