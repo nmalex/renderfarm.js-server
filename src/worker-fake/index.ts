@@ -162,7 +162,8 @@ setInterval(function(this: FakeWorker) {
             port: w.port,
             cpu_usage: isNumber(w.cpuUsage) ? w.cpuUsage : (0.5 * Math.random()),
             ram_usage: isNumber(w.ramUsage) ? w.ramUsage : (0.1 + Math.random() / 50),
-            total_ram: isNumber(w.totalRam) ? w.totalRam : 32
+            total_ram: isNumber(w.totalRam) ? w.totalRam : 32,
+            workgroup: "dev"
         };
         
         let hbstr = JSON.stringify(heartbeat);
