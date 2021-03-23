@@ -116,13 +116,13 @@ class ThreeGeometryEndpoint implements IEndpoint {
                     return `${this._settings.current.publicUrl}/v${this._settings.majorVersion}/three/geometry/cache/${md5}/file`;
                 }.bind(this);
 
-                let geometryJson = { uuid, md5: useCache };
+                let downloadUrl = makeDownloadUrl(useCache);
+                let geometryJson = { uuid, md5: useCache, downloadUrl };
 
                 let geometryCache = await this._geometryCachePool.Get(session);
 
                 let newGeomBinding = await this._geometryBindingFactory.Create(session, geometryJson);
                 geometryCache.Geometries[geometryJson.uuid] = newGeomBinding;
-                let downloadUrl = makeDownloadUrl(useCache);
 
                 res.status(201);
                 res.end(JSON.stringify({ ok: true, type: "url", data: [ downloadUrl ] }));
@@ -146,19 +146,16 @@ class ThreeGeometryEndpoint implements IEndpoint {
                     console.log(' >> saved mesh to ' + zipTarget);
                 });
 
-                let geometryJson = { uuid: uuid, compressed_json: compressedJson, md5: storeCacheMD5 };
-
-                let makeDownloadUrl = function(this: ThreeGeometryEndpoint, geometryJson: any) {
-                    return storeCacheMD5
+                let downloadUrl = storeCacheMD5
                         ? `${this._settings.current.publicUrl}/v${this._settings.majorVersion}/three/geometry/cache/${storeCacheMD5}/file`
-                        : `${this._settings.current.publicUrl}/v${this._settings.majorVersion}/three/geometry/${geometryJson.uuid}/file`;
-                }.bind(this);
+                        : `${this._settings.current.publicUrl}/v${this._settings.majorVersion}/three/geometry/${uuid}/file`;
+
+                let geometryJson = { uuid: uuid, compressed_json: compressedJson, md5: storeCacheMD5, downloadUrl };
 
                 let geometryCache = await this._geometryCachePool.Get(session);
 
                 let newGeomBinding = await this._geometryBindingFactory.Create(session, geometryJson);
                 geometryCache.Geometries[geometryJson.uuid] = newGeomBinding;
-                let downloadUrl = makeDownloadUrl(geometryJson);
 
                 res.status(201);
                 res.end(JSON.stringify({ ok: true, type: "url", data: [ downloadUrl ] }));

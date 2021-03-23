@@ -37,7 +37,7 @@ export class GeometryBinding implements IGeometryBinding {
 
         console.log(" >> GeometryBinding takes json, and sends it to remote maxscript");
         if (this._maxInstances.length === 0) {
-            let downloadUrl = `${this._settings.current.publicUrl}/v${this._settings.majorVersion}/three/geometry/${this._geometryJson.uuid}`;
+            let downloadUrl = this._geometryJson.downloadUrl;
             let filename = `${this._geometryJson.uuid}.json.zip`;
 
             console.log(` >> tell 3dsmax to download from ${downloadUrl} into ${maxName}`);
