@@ -17,3 +17,4 @@ ftp_settings.js
 **/x64/Release/
 
 *.png
+backup_*/
