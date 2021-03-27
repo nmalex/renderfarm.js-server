@@ -226,6 +226,15 @@ class ThreeGeometryEndpoint implements IEndpoint {
             res.status(200);
             res.end(JSON.stringify({}));
         }.bind(this));
+
+        express.get(`/v${this._settings.majorVersion}/three/geometry/:uuid/unwrap`, async function (this: ThreeGeometryEndpoint, req, res) {
+            console.log(`GET on ${req.path}`);
+
+            let uuid = req.params.uuid;
+
+            res.status(418);
+            res.end(JSON.stringify({ ok: false, data: "feature not implemented" }));
+        }.bind(this));
     }
 }
 

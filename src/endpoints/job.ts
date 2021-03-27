@@ -82,6 +82,8 @@ class JobEndpoint implements IEndpoint {
             console.log(` >> camera json: `, cameraJson);
 
             let cameraName = cameraJson ? cameraJson.name : null;
+
+            // TODO: remove bake from this job, make a separare POST handler for bake requests
             let bakeMeshUuid = req.body.bake_mesh_uuid;
 
             if (cameraName && bakeMeshUuid) {
@@ -130,7 +132,27 @@ class JobEndpoint implements IEndpoint {
             //     return;
             // }
 
-            let job = await this._database.createJob(session.apiKeyRef, session.workerGuid, cameraJson, bakeMeshUuid, renderWidth, renderHeight, alpha, renderSettings);
+            let job = await this._database.createJobRender(session.apiKeyRef, session.workerGuid, cameraJson, renderWidth, renderHeight, alpha, renderSettings);
+
+            this._jobService.Start(session, job);
+
+            res.status(200);
+            res.end(JSON.stringify({ ok: true, type: "jobs", data: job.toJSON() }, null, 2));
+        }.bind(this));
+
+        express.post(`/v${this._settings.majorVersion}/job/convert`, async function (this: JobEndpoint, req: express.Request, res: express.Response) {
+            let sessionGuid = req.body.session_guid;
+            console.log(`POST on ${req.path} with session: ${sessionGuid}`);
+
+            let session: Session = await this._sessionService.GetSession(sessionGuid, false, false, true);
+            if (!session) {
+                return;
+            }
+
+            const inputUrl = req.body.input_url;
+
+            const settings = {};
+            let job = await this._database.createJobConvert(session.apiKeyRef, session.workerGuid, inputUrl, settings);
 
             this._jobService.Start(session, job);
 

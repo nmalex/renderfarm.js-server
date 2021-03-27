@@ -80,7 +80,21 @@ export class JobService extends EventEmitter implements IJobService {
                     let failedJob = await this._database.failJob(job, err.message);
                     this.emit("job:failed", failedJob);
                 }.bind(this));
-        } else if (job.bakeMeshUuid) {
+        } else if (job.jobType === "convert") {
+            let filename = job.guid + ".fbx";
+            // todo: don't hardcode worker local temp directory, workers must report it by heartbeat
+            client.convertFile(job.inputUrl, "C:\\Temp\\" + filename, job.settings)
+                .then(async function(this: JobService, result) {
+                    console.log(" >> completeJob, ", result);
+                    let completedJob = await this._database.completeJob(job, [ `${this._settings.current.publicUrl}/v${this._settings.majorVersion}/renderoutput/${filename}` ]);
+                    this.emit("job:completed", completedJob);
+                }.bind(this))
+                .catch(async function(this: JobService, err) {
+                    console.log(" >> failJob: ", err);
+                    let failedJob = await this._database.failJob(job, err.message);
+                    this.emit("job:failed", failedJob);
+                }.bind(this));
+        } /* else if (job.bakeMeshUuid) {
             let cache = await this._geometryCachePool.Get(session);
 
             let maxInstanceInfo: IMaxInstanceInfo;
@@ -118,7 +132,7 @@ export class JobService extends EventEmitter implements IJobService {
                     let failedJob = await this._database.failJob(job, err.message);
                     this.emit("job:failed", failedJob);
                 }.bind(this));
-        } else {
+        } */ else {
             throw Error("job must have either .cameraJson or .bakeObjectName");
         }
     }

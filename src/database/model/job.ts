@@ -1,18 +1,19 @@
 import { IDbEntity } from "./base/IDbEntity";
-import { isArray } from "util";
 import { Worker } from "./worker";
 
 export class Job extends IDbEntity {
     public guid: string;
     public apiKey: string;
+    public jobType: string;
 
     public cameraJson: any;
-    public bakeMeshUuid: string;
+    public inputUrl: string;
 
     public renderWidth: number;
     public renderHeight: number;
     public alpha: boolean;
     public renderSettings: any;
+    public settings: any;
 
     public createdAt: Date;
     public updatedAt: Date;
@@ -39,14 +40,16 @@ export class Job extends IDbEntity {
     public parse(obj: any) {
         this.guid       = obj.guid;
         this.apiKey     = obj.apiKey;
+        this.jobType    = obj.jobType;
+        this.inputUrl   = obj.inputUrl;
 
-        this.cameraJson   = obj.cameraJson;
-        this.bakeMeshUuid = obj.bakeMeshUuid;
+        this.cameraJson     = obj.cameraJson;
 
         this.renderWidth    = obj.renderWidth;
         this.renderHeight   = obj.renderHeight;
         this.alpha          = obj.alpha;
         this.renderSettings = obj.renderSettings;
+        this.settings       = obj.settings;
 
         this.createdAt  = obj.createdAt ? new Date(obj.createdAt) : undefined;
         this.updatedAt  = obj.updatedAt ? new Date(obj.updatedAt) : undefined;
@@ -57,21 +60,23 @@ export class Job extends IDbEntity {
         this.canceled   = obj.canceled;
         this.failed     = obj.failed;
         this.error      = obj.error;
-        this.urls       = isArray(obj.urls) ? obj.urls : [];
+        this.urls       = Array.isArray(obj.urls) ? obj.urls : [];
     }
 
     public toJSON() {
         let result: any = {
             guid:       this.guid,
             apiKey:     this.apiKey,
+            jobType:    this.jobType,
 
-            cameraJson:   this.cameraJson,
-            bakeMeshUuid: this.bakeMeshUuid,
+            cameraJson:     this.cameraJson,
+            inputUrl:       this.inputUrl,
 
             renderWidth:    this.renderWidth,
             renderHeight:   this.renderHeight,
             alpha:          this.alpha,
             renderSettings: this.renderSettings,
+            settings:       this.settings,
 
             createdAt:  this.createdAt,
             updatedAt:  this.updatedAt,

@@ -1,0 +1,8 @@
+Importing files into scene
+https://help.autodesk.com/view/3DSMAX/2016/ENU/?guid=__files_GUID_624D3D05_B15D_4A97_9F15_DA35CDB0DDD2_htm
+importFile <filename_string> [#noPrompt] [using:<maxclass>] 
+
+print importerPlugin.classes
+-- ATF_STEP_importer
+
+exportFile <filename_string> [#noPrompt] [selectedOnly:<boolean>] [using:<maxclass>] 

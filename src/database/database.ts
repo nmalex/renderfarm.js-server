@@ -599,7 +599,7 @@ export class Database implements IDatabase {
         return jobs;
     }
 
-    public async createJob(apiKey: ApiKey, workerGuid: string, cameraJson: any, bakeMeshUuid: string, renderWidth: number, renderHeight: number, alpha: boolean, renderSettings: any): Promise<Job> {
+    public async createJobRender(apiKey: ApiKey, workerGuid: string, cameraJson: any, renderWidth: number, renderHeight: number, alpha: boolean, renderSettings: any): Promise<Job> {
         let job = new Job(null);
 
         job.apiKey = apiKey.apiKey;
@@ -609,12 +609,34 @@ export class Database implements IDatabase {
         job.workerGuid = workerGuid;
         job.state = "pending";
 
+        job.jobType = "render";
+
         job.cameraJson = cameraJson;
-        job.bakeMeshUuid = bakeMeshUuid;
         job.renderWidth = renderWidth;
         job.renderHeight = renderHeight;
         job.alpha = alpha;
         job.renderSettings = renderSettings;
+
+        let result = await this.insertOne<Job>("jobs", job, obj => new Job(obj));
+        result.workerRef = await this.getOne<Worker>("workers", { guid: result.workerGuid }, obj => new Worker(obj));
+
+        return result;
+    }
+
+    public async createJobConvert(apiKey: ApiKey, workerGuid: string, inputUrl: string, settings: any): Promise<Job> {
+        let job = new Job(null);
+
+        job.apiKey = apiKey.apiKey;
+        job.guid = uuidv4();
+        job.createdAt = new Date();
+        job.updatedAt = new Date();
+        job.workerGuid = workerGuid;
+        job.state = "pending";
+
+        job.jobType = "convert";
+
+        job.inputUrl = inputUrl;
+        job.settings = settings;
 
         let result = await this.insertOne<Job>("jobs", job, obj => new Job(obj));
         result.workerRef = await this.getOne<Worker>("workers", { guid: result.workerGuid }, obj => new Worker(obj));

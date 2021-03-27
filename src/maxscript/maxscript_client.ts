@@ -721,6 +721,10 @@ fullpath = (dir + "\\" + filename)
         return this.execMaxscript(maxscript, "renderScene");
     }
 
+    convertFile(inputUrl: string, filename: string, settings: any): Promise<boolean> {
+        return new Promise(function() {}); // TODO: implement it
+    }
+
     bakeTextures(bakeObjectName: string, size: number, filenames: IBakeTexturesFilenames, renderSettings: any): Promise<boolean> {
         let escapedLightmap = filenames.lightmap.replace(/\\/g, "\\\\");
 
