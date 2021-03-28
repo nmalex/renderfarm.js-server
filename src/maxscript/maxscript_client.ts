@@ -722,7 +722,22 @@ fullpath = (dir + "\\" + filename)
     }
 
     convertFile(inputUrl: string, filename: string, settings: any): Promise<boolean> {
-        return new Promise(function() {}); // TODO: implement it
+        console.log(` >> convertFile: `,
+            `\r\n    inputUrl: `, inputUrl,
+            `\r\n    filename: `, filename,
+            `\r\n    settings: `, settings);
+
+        let escapedFilename = filename.replace(/\\/g, "\\\\");
+
+        // curl -o do-bots.txt  https://www.digitalocean.com/robots.txt
+
+        let maxscript
+            + ` cmdexRun "C:\\\\bin\\\\curl.exe -o ${escapedFilename} ${inputUrl}" `;
+
+
+        console.log(" >> maxscript: " + maxscript);
+
+        return this.execMaxscript(maxscript, "convertFile");
     }
 
     bakeTextures(bakeObjectName: string, size: number, filenames: IBakeTexturesFilenames, renderSettings: any): Promise<boolean> {
@@ -745,9 +760,6 @@ fullpath = (dir + "\\" + filename)
             + ` render rendertype:#bakeSelected vfb:on progressBar:true outputSize:[size,size] ;\r\n`
             + ` cmdexRun "C:\\\\bin\\\\img_morphology.exe 2 2 0 \\\"${escapedLightmap}\\\" \\\"${escapedLightmap}\\\"" ;\r\n`
             + ` cmdexRun "C:\\\\bin\\\\curl.exe -F file=@${escapedLightmap} https://acc.renderfarmjs.com/v1/renderoutput" `
-
-        // see here: http://help.autodesk.com/view/3DSMAX/2018/ENU/?guid=__files_GUID_9175301C_13E6_488B_ABA6_D27CD804B205_htm
-        // can also use: JPEG.setQuality(5); JPEG.setSmoothing(1);
 
         console.log(" >> maxscript: " + maxscript);
 

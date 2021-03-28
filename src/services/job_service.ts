@@ -86,7 +86,7 @@ export class JobService extends EventEmitter implements IJobService {
             client.convertFile(job.inputUrl, "C:\\Temp\\" + filename, job.settings)
                 .then(async function(this: JobService, result) {
                     console.log(" >> completeJob, ", result);
-                    let completedJob = await this._database.completeJob(job, [ `${this._settings.current.publicUrl}/v${this._settings.majorVersion}/renderoutput/${filename}` ]);
+                    let completedJob = await this._database.completeJob(job, [ `${this._settings.current.publicUrl}/v${this._settings.majorVersion}/convertoutput/${filename}` ]);
                     this.emit("job:completed", completedJob);
                 }.bind(this))
                 .catch(async function(this: JobService, err) {
