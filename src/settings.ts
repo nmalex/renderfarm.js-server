@@ -14,6 +14,7 @@ export interface SettingsData {
     sslKey: string;
     sslCert: string;
     renderOutputDir: string;
+    convertOutputDir: string;
     apiKeyCheck: boolean;
     workspaceCheck: boolean;
     expireSessions: boolean;

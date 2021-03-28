@@ -721,19 +721,19 @@ fullpath = (dir + "\\" + filename)
         return this.execMaxscript(maxscript, "renderScene");
     }
 
-    convertFile(inputUrl: string, filename: string, settings: any): Promise<boolean> {
+    convertFile(inputUrl: string, filename: string, outputname: string, settings: any): Promise<boolean> {
         console.log(` >> convertFile: `,
             `\r\n    inputUrl: `, inputUrl,
-            `\r\n    filename: `, filename,
             `\r\n    settings: `, settings);
-
+        
         let escapedFilename = filename.replace(/\\/g, "\\\\");
+        let escapedOutFilename = outputname.replace(/\\/g, "\\\\");
 
-        // curl -o do-bots.txt  https://www.digitalocean.com/robots.txt
-
-        let maxscript
-            + ` cmdexRun "C:\\\\bin\\\\curl.exe -o ${escapedFilename} ${inputUrl}" `;
-
+        let maxscript = ``
+            + ` cmdexRun "C:\\\\bin\\\\curl.exe -o ${escapedFilename} ${inputUrl}" \r\n`
+            + ` importFile \"${escapedFilename}\" #noPrompt \r\n`
+            + ` exportFile \"${escapedOutFilename}\" #noPrompt \r\n`
+            + ` cmdexRun "C:\\\\bin\\\\curl.exe -F file=@${escapedOutFilename} ${this._settings.current.publicUrl}/v1/convertoutput" `;
 
         console.log(" >> maxscript: " + maxscript);
 

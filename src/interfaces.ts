@@ -124,7 +124,7 @@ export interface IMaxscriptClient {
     unwrapUV2(nodeName: string): Promise<boolean>;
 
     renderScene(cameraJson: any, size: number[], filename: string, alpha: boolean, renderSettings: any): Promise<boolean>;
-    convertFile(inputUrl: string, filename: string, settings: any): Promise<boolean>;
+    convertFile(inputUrl: string, filename: string, outputname: string, settings: any): Promise<boolean>;
     bakeTextures(bakeObjectName: string, size: number, filenames: IBakeTexturesFilenames, renderSettings: any): Promise<boolean>;
 }
 

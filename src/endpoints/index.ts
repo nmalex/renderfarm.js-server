@@ -3,6 +3,7 @@ export { JobEndpoint } from "./job";
 export { WorkerEndpoint } from "./worker";
 export { WorkspaceFileEndpoint } from "./workspace.file";
 export { RenderOutputEndpoint } from "./renderoutput";
+export { ConvertOutputEndpoint } from "./convertoutput";
 export { ExternalAssetEndpoint } from "./externalasset";
 
 export { ThreeObjectEndpoint } from "./three/three.object";

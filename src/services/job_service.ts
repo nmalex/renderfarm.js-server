@@ -7,6 +7,9 @@ import { Job } from "../database/model/job";
 import { EventEmitter } from "events";
 import { Session } from "../database/model/session";
 
+const url = require("url");
+const path = require("path");
+
 @injectable()
 export class JobService extends EventEmitter implements IJobService {
     private _settings: ISettings;
@@ -63,10 +66,10 @@ export class JobService extends EventEmitter implements IJobService {
         let client = await this._maxscriptClientPool.Get(session);
         this.emit("job:added", job);
 
-        let renderingJob = await this._database.updateJob(job, { $set: { state: "rendering" } });
-        this.emit("job:updated", renderingJob);
-
         if (job.cameraJson) {
+            let renderingJob = await this._database.updateJob(job, { $set: { state: "rendering" } });
+            this.emit("job:updated", renderingJob);
+
             let filename = job.guid + ".png";
             // todo: don't hardcode worker local temp directory, workers must report it by heartbeat
             client.renderScene(job.cameraJson, [job.renderWidth, job.renderHeight], "C:\\Temp\\" + filename, job.alpha, job.renderSettings)
@@ -81,12 +84,19 @@ export class JobService extends EventEmitter implements IJobService {
                     this.emit("job:failed", failedJob);
                 }.bind(this));
         } else if (job.jobType === "convert") {
-            let filename = job.guid + ".fbx";
+            let renderingJob = await this._database.updateJob(job, { $set: { state: "processing" } });
+            this.emit("job:updated", renderingJob);
+
+            const parsed = url.parse(job.inputUrl);
+
+            const filename = path.basename(parsed.pathname);
+            const fileext = path.extname(filename);
+    
             // todo: don't hardcode worker local temp directory, workers must report it by heartbeat
-            client.convertFile(job.inputUrl, "C:\\Temp\\" + filename, job.settings)
+            client.convertFile(job.inputUrl, `C:\\Temp\\${job.guid}${fileext}`, `C:\\Temp\\${job.guid}.fbx`, job.settings)
                 .then(async function(this: JobService, result) {
                     console.log(" >> completeJob, ", result);
-                    let completedJob = await this._database.completeJob(job, [ `${this._settings.current.publicUrl}/v${this._settings.majorVersion}/convertoutput/${filename}` ]);
+                    let completedJob = await this._database.completeJob(job, [ `${this._settings.current.publicUrl}/v${this._settings.majorVersion}/convertoutput/${job.guid}.fbx` ]);
                     this.emit("job:completed", completedJob);
                 }.bind(this))
                 .catch(async function(this: JobService, err) {
@@ -94,6 +104,7 @@ export class JobService extends EventEmitter implements IJobService {
                     let failedJob = await this._database.failJob(job, err.message);
                     this.emit("job:failed", failedJob);
                 }.bind(this));
+
         } /* else if (job.bakeMeshUuid) {
             let cache = await this._geometryCachePool.Get(session);
 

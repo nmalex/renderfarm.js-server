@@ -30,6 +30,7 @@ myContainer.bind<interfaces.IEndpoint>(TYPES.IEndpoint).to(endpoints.JobEndpoint
 myContainer.bind<interfaces.IEndpoint>(TYPES.IEndpoint).to(endpoints.WorkerEndpoint).inSingletonScope();
 myContainer.bind<interfaces.IEndpoint>(TYPES.IEndpoint).to(endpoints.WorkspaceFileEndpoint).inSingletonScope();
 myContainer.bind<interfaces.IEndpoint>(TYPES.IEndpoint).to(endpoints.RenderOutputEndpoint).inSingletonScope();
+myContainer.bind<interfaces.IEndpoint>(TYPES.IEndpoint).to(endpoints.ConvertOutputEndpoint).inSingletonScope();
 myContainer.bind<interfaces.IEndpoint>(TYPES.IEndpoint).to(endpoints.ExternalAssetEndpoint).inSingletonScope();
 myContainer.bind<interfaces.IEndpoint>(TYPES.IEndpoint).to(endpoints.ThreeObjectEndpoint).inSingletonScope();
 myContainer.bind<interfaces.IEndpoint>(TYPES.IEndpoint).to(endpoints.ThreeGeometryEndpoint).inSingletonScope();
