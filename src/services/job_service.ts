@@ -66,7 +66,7 @@ export class JobService extends EventEmitter implements IJobService {
         let client = await this._maxscriptClientPool.Get(session);
         this.emit("job:added", job);
 
-        if (job.cameraJson) {
+        if (job.cameraJson) { // don't do it --> && job.jobType === "render" because it will be not backward compatible
             let renderingJob = await this._database.updateJob(job, { $set: { state: "rendering" } });
             this.emit("job:updated", renderingJob);
 
