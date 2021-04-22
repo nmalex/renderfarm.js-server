@@ -1,5 +1,5 @@
 module.exports = function() { return {
-    version: "1.3.1",
+    version: "1.3.2",
     common: {
         workgroup: "default",
         host: "localhost",

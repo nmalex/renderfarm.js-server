@@ -24,6 +24,7 @@ const TYPES = {
     // services
     IWorkerService: Symbol.for("IWorkerService"),
     IJobService: Symbol.for("IJobService"),
+    ITaskSchedulerService: Symbol.for("ITaskSchedulerService"),
     ISessionService: Symbol.for("ISessionService"),
     IMaxscriptClientPool: Symbol.for("ISessionPool<IMaxscriptClient>"),
     IThreeMaxscriptBridgePool: Symbol.for("ISessionPool<IThreeMaxscriptBridge>"),

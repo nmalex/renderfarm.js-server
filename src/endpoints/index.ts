@@ -1,5 +1,6 @@
 export { SessionEndpoint } from "./session";
 export { JobEndpoint } from "./job";
+export { TaskEndpoint } from "./task";
 export { WorkerEndpoint } from "./worker";
 export { WorkspaceFileEndpoint } from "./workspace.file";
 export { RenderOutputEndpoint } from "./renderoutput";

@@ -121,6 +121,7 @@ class JobEndpoint implements IEndpoint {
 
             let session: Session = await this._sessionService.GetSession(sessionGuid, false, false, true);
             if (!session) {
+                // todo: need res.end
                 return;
             }
 
@@ -146,6 +147,7 @@ class JobEndpoint implements IEndpoint {
 
             let session: Session = await this._sessionService.GetSession(sessionGuid, false, false, true);
             if (!session) {
+                // todo: need res.end
                 return;
             }
 
@@ -165,6 +167,8 @@ class JobEndpoint implements IEndpoint {
 
             //check that session is open => means worker is assigned and alive
             //get worker by guid
+
+            // todo: need res.end
 
         }.bind(this));
     }

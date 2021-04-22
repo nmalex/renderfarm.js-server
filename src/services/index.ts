@@ -1,5 +1,6 @@
 export { SessionService } from "./session_service";
 export { JobService } from "./job_service";
+export { TaskSchedulerService } from "./task_scheduler_service";
 export { WorkerService } from "./worker_service";
 export { MaxScriptClientPool } from "./pools/maxscript_client_pool";
 export { GeometryCachePool } from "./pools/geometry_cache_pool";

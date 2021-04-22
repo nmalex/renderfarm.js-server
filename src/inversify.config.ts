@@ -27,6 +27,7 @@ myContainer.bind<interfaces.IApp>(TYPES.IApp).to(App).inSingletonScope();
 // endpoints
 myContainer.bind<interfaces.IEndpoint>(TYPES.IEndpoint).to(endpoints.SessionEndpoint).inSingletonScope();
 myContainer.bind<interfaces.IEndpoint>(TYPES.IEndpoint).to(endpoints.JobEndpoint).inSingletonScope();
+myContainer.bind<interfaces.IEndpoint>(TYPES.IEndpoint).to(endpoints.TaskEndpoint).inSingletonScope();
 myContainer.bind<interfaces.IEndpoint>(TYPES.IEndpoint).to(endpoints.WorkerEndpoint).inSingletonScope();
 myContainer.bind<interfaces.IEndpoint>(TYPES.IEndpoint).to(endpoints.WorkspaceFileEndpoint).inSingletonScope();
 myContainer.bind<interfaces.IEndpoint>(TYPES.IEndpoint).to(endpoints.RenderOutputEndpoint).inSingletonScope();
@@ -41,6 +42,7 @@ myContainer.bind<interfaces.IEndpoint>(TYPES.IEndpoint).to(endpoints.ThreeImageE
 // services
 myContainer.bind<interfaces.IWorkerService>(TYPES.IWorkerService).to(services.WorkerService).inSingletonScope();
 myContainer.bind<interfaces.IJobService>(TYPES.IJobService).to(services.JobService).inSingletonScope();
+myContainer.bind<interfaces.ITaskSchedulerService>(TYPES.ITaskSchedulerService).to(services.TaskSchedulerService).inSingletonScope();
 myContainer.bind<interfaces.ISessionService>(TYPES.ISessionService).to(services.SessionService).inSingletonScope();
 
 // pools

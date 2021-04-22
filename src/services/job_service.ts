@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify";
 import { TYPES } from "../types";
-import { ISettings, IDatabase, IJobService, ISessionPool, IMaxscriptClient, IBakeTexturesFilenames, IGeometryCache, IMaxInstanceInfo } from "../interfaces";
+import { ISettings, IDatabase, IJobService, ISessionPool, IMaxscriptClient, IGeometryCache } from "../interfaces";
 import { Job } from "../database/model/job";
 
 ///<reference path="./typings/node/node.d.ts" />

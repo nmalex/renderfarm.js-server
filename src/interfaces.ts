@@ -6,6 +6,7 @@ import { Workspace } from "./database/model/workspace";
 import { Session } from "./database/model/session";
 import { Worker } from "./database/model/worker";
 import { Job } from "./database/model/job";
+import { Task } from "./database/model/task";
 
 export interface IGetSessionOptions {
     allowClosed?: boolean;
@@ -149,6 +150,14 @@ export interface IWorkerService {
 export interface IJobService {
     Start(session: Session, job: Job): void;
     Cancel(job: Job): void;
+    on(event: string | symbol, listener: (...args: any[]) => void): this;
+}
+
+export interface ITaskSchedulerService {
+    Push(newTask: Task): string;
+    Pop(): Task;
+    Cancel(task: Task): void;
+    GetAll(): Task[];
     on(event: string | symbol, listener: (...args: any[]) => void): this;
 }
 

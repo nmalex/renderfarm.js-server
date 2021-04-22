@@ -35,7 +35,7 @@ export class WorkerService extends EventEmitter implements IWorkerService {
         if (this._settings.current.heartbeatPort > 0) {
             console.log(`heartbeatPort: ${this._settings.current.heartbeatPort}`);
             this.StartListener( this._settings.current.heartbeatPort );
-            this.StartWorkerWatchdogTimer(this._settings.current.workerTimeoutSeconds)
+            this.StartWorkerWatchdogTimer(this._settings.current.workerTimeoutSeconds);
         } else {
             console.log(`heartbeatPort is ${this._settings.current.heartbeatPort}, this instance will not accept worker heartbeats`);
         }
