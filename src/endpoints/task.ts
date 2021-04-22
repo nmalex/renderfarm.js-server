@@ -26,8 +26,10 @@ class TaskEndpoint implements IEndpoint {
 
     bind(express: express.Application) {
         express.get(`/v${this._settings.majorVersion}/task`, async function (this: TaskEndpoint, req: express.Request, res: express.Response) {
-            // get all active task
+            // get all tasks by given filter
             console.log(`GET on ${req.path}`);
+
+            //todo: let user get all tasks, consider filters
 
             res.status(200);
             res.end(JSON.stringify({ ok: true, type: "tasks", data: null }, null, 2));
@@ -37,6 +39,8 @@ class TaskEndpoint implements IEndpoint {
             let jobGuid = req.params.uid;
             console.log(`GET on ${req.path} with task guid: ${jobGuid}`);
 
+            //todo: let user get actual task state
+
             res.status(200);
             res.end(JSON.stringify({ ok: true, type: "tasks", data: null }, null, 2));
         }.bind(this));
@@ -45,6 +49,9 @@ class TaskEndpoint implements IEndpoint {
             let sessionGuid = req.body.session_guid;
             console.log(`POST on ${req.path} with session: ${sessionGuid}`);
 
+            //todo: check api key
+            //todo: add task to task scheduler
+
             res.status(200);
             res.end(JSON.stringify({ ok: true, type: "tasks", data: null }, null, 2));
         }.bind(this));
@@ -52,8 +59,9 @@ class TaskEndpoint implements IEndpoint {
         express.put('/task/:uid', async function (this: TaskEndpoint, req: express.Request, res: express.Response) {
             console.log(`PUT on ${req.path}`);
 
-            //check that session is open => means worker is assigned and alive
-            //get worker by guid
+            //todo: let user cancel task
+            //todo: cancel task in task scheduler
+            //todo: if task has a job, - cancel the job too
 
             res.status(200);
             res.end(JSON.stringify({ ok: true, type: "tasks", data: null }, null, 2));
