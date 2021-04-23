@@ -83,18 +83,9 @@ class JobEndpoint implements IEndpoint {
 
             let cameraName = cameraJson ? cameraJson.name : null;
 
-            // TODO: remove bake from this job, make a separare POST handler for bake requests
-            let bakeMeshUuid = req.body.bake_mesh_uuid;
-
-            if (cameraName && bakeMeshUuid) {
+            if (!cameraName) {
                 res.status(400);
-                res.end(JSON.stringify({ ok: false, message: "defined both camera_name and bake_mesh_uuid", error: null }, null, 2));
-                return;
-            }
-
-            if (!cameraName && !bakeMeshUuid) {
-                res.status(400);
-                res.end(JSON.stringify({ ok: false, message: "missing camera_name or bake_mesh_uuid", error: null }, null, 2));
+                res.end(JSON.stringify({ ok: false, message: "missing camera_name", error: null }, null, 2));
                 return;
             }
 
@@ -121,10 +112,14 @@ class JobEndpoint implements IEndpoint {
 
             let session: Session = await this._sessionService.GetSession(sessionGuid, false, false, true);
             if (!session) {
-                // todo: need res.end
+                res.status(403);
+                res.end(JSON.stringify({ ok: false, message: "missing render_height", error: null }, null, 2));
                 return;
             }
 
+            //todo: prevent making many jobs from under same session
+            //todo: add tests for this
+            //
             // let activeJobs: Job[] = await this._database.getActiveJobs(this._settings.current)
             // if (activeJobs.find(el => el.workerGuid === session.workerGuid)) {
             //     console.log(`  FAIL | session busy: ${sessionGuid}`);
@@ -147,7 +142,9 @@ class JobEndpoint implements IEndpoint {
 
             let session: Session = await this._sessionService.GetSession(sessionGuid, false, false, true);
             if (!session) {
-                // todo: need res.end
+                console.log(`  FAIL | session not found: ${sessionGuid}`);
+                res.status(404);
+                res.end(JSON.stringify({ ok: false, message: "session not found", error: null }, null, 2));
                 return;
             }
 

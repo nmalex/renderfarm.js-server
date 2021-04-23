@@ -31,6 +31,7 @@
     "@types/uuid": "^3.4.4",
     "form-data": "^2.3.3",
     "ftp": "^0.3.10",
+    "jasmine": "^3.7.0",
     "jasmine-reporters": "^2.3.2",
     "tmp": "0.0.33",
     "typescript": "^3.7.4"
