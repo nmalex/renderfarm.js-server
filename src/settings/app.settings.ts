@@ -20,8 +20,8 @@ module.exports = function() { return {
         mixpanelToken: "123"
     },
     dev: {
-        connectionUrl: "mongodb://localhost:27017/rfarm-dev",
-        databaseName: "rfarm-dev",
+        connectionUrl: "mongodb://localhost:27017/rfarmdev",
+        databaseName: "rfarmdev",
         collectionPrefix: "dev",
         sessionTimeoutMinutes: 1
     },
@@ -29,14 +29,14 @@ module.exports = function() { return {
         heartbeatPort: 0,
         protocol: "http",
         publicUrl: "http://localhost:8000",
-        connectionUrl: "mongodb://localhost:27017/rfarm-test",
-        databaseName: "rfarm-test",
+        connectionUrl: "mongodb://localhost:27017/rfarmtest",
+        databaseName: "rfarmtest",
         collectionPrefix: "test",
         sessionTimeoutMinutes: 5,
     },
     prod: {
-        connectionUrl: "mongodb://localhost:27017/rfarm-prod",
-        databaseName: "rfarm-prod",
+        connectionUrl: "mongodb://localhost:27017/rfarmprod",
+        databaseName: "rfarmprod",
         collectionPrefix: "prod",
         sessionTimeoutMinutes: 30
     }
