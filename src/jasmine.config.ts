@@ -6,13 +6,13 @@ module.exports = function() {
     if (process.env.TEST_REP === "JUNIT") {
         var junitReporter = new reporters.JUnitXmlReporter({
             savePath: ".test-results",
-            consolidateAll: true
+            consolidateAll: false
         });
         jasmine.getEnv().clearReporters();
         jasmine.getEnv().addReporter(junitReporter);
     } else if (process.env.TEST_REP === "TEAMCITY") {
         var teamCityReporter = new reporters.TeamCityReporter({
-            savePath: __dirname,
+            savePath: ".test-results",
             consolidateAll: true
         });
         jasmine.getEnv().clearReporters();
