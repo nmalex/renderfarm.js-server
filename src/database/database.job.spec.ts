@@ -29,23 +29,21 @@ describe("Database Job", function() {
     
         afterEach(async function() {
             try {
-            //    await database.disconnect();
+                await database.disconnect();
             } catch (err) {
                 console.log(`afterEach failed with error: ${err.message}`);
             }
         })
 
-        fit("checks existing job", async function() {
+        it("checks existing job", async function() {
             let job: Job = await database.getJob(helpers.existingJobGuid);
-
-            console.log("checking job: ", job);
 
             expect(job).toBeTruthy();
             expect(job.guid).toBe(helpers.existingJobGuid);
             expect(job.apiKey).toBe(helpers.existingApiKey.apiKey);
 
-            expect(job.createdAt).toEqual(new Date("2000-01-01 00:00:00.000"));
-            expect(job.updatedAt).toEqual(new Date("2000-01-01 00:00:00.000"));
+            expect(job.createdAt).toEqual(new Date("1999-12-31T23:00:00.000Z"));
+            expect(job.updatedAt).toEqual(new Date("1999-12-31T23:00:00.000Z"));
             expect(job.closedAt).toBeUndefined();
             expect(job.workerGuid).toBe(helpers.existingWorkerGuid);
             expect(job.state).toBe("pending");
@@ -111,7 +109,7 @@ describe("Database Job", function() {
             return jobAdded;
         }
 
-        it("checks that job was correctly inserted", async function(done) {
+        it("checks that job was correctly inserted", async function() {
             let newJob = await createSomeJob();
 
             let job = await database.getOne<Job>("jobs", { guid: newJob.guid }, obj => new Job(obj));
@@ -128,11 +126,9 @@ describe("Database Job", function() {
             expect(job.renderWidth).toBe(100);
             expect(job.renderHeight).toBe(200);
             expect(job.alpha).toBe(true);
-
-            done();
         })
 
-        it("checks that job was correctly updated", async function(done) {
+        it("checks that job was correctly updated", async function() {
             let newJob = await createSomeJob();
 
             let updatedJob = await database.updateJob(newJob, { $set: { state: "running" , updatedAt: new Date() } });
@@ -140,11 +136,9 @@ describe("Database Job", function() {
             expect(updatedJob).toBeTruthy();
             expect(updatedJob.state).toBe("running");
             expect(updatedJob.updatedAt.getTime()).toBeGreaterThan(newJob.createdAt.getTime());
-
-            done();
         })
 
-        it("checks that job was correctly closed", async function(done) {
+        it("checks that job was correctly closed", async function() {
             let newJob = await createSomeJob();
 
             let closedJob = await database.completeJob(newJob, [ "https://example.com/1", "https://example.com/2" ]);
@@ -163,15 +157,12 @@ describe("Database Job", function() {
             expect(closedJob.urls.length).toBe(2);
             expect(closedJob.urls[0]).toBe("https://example.com/1");
             expect(closedJob.urls[1]).toBe("https://example.com/2");
-
-            done();
         })
 
-        it("checks that job was correctly canceled", async function(done) {
+        it("checks that job was correctly canceled", async function() {
             let newJob = await createSomeJob();
 
             let canceledJob = await database.cancelJob(newJob);
-            console.log(canceledJob);
 
             expect(canceledJob).toBeTruthy();
             expect(canceledJob.state).toBeUndefined();
@@ -184,11 +175,9 @@ describe("Database Job", function() {
 
             expect(isArray(canceledJob.urls)).toBeTruthy();
             expect(canceledJob.urls.length).toBe(0);
-
-            done();
         })
 
-        it("checks that job was correctly failed", async function(done) {
+        it("checks that job was correctly failed", async function() {
             let newJob = await createSomeJob();
 
             let failedJob: Job = await database.failJob(newJob, "test failure");
@@ -206,12 +195,10 @@ describe("Database Job", function() {
             expect(failedJob.urls.length).toBe(0);
 
             expect(failedJob.error).toBe("test failure");
-
-            done();
         })
 
-        it("checks that all active jobs are correctly returned", async function(done) {
-            done();
+        it("checks that all active jobs are correctly returned", async function() {
+            // todo: implement it
         })
 
     }); // end of write tests */

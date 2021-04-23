@@ -34,17 +34,16 @@ describe("Database ApiKey", function() {
             }
         })
 
-        it("checks existing api key", async function(done) {
+        it("checks existing api key", async function() {
             let result: ApiKey = await database.getApiKey(helpers.existingApiKey.apiKey);
 
             expect(result).toBeTruthy();
             expect(result.apiKey).toBe(helpers.existingApiKey.apiKey);
             expect(result.userGuid).toBe(helpers.existingUserGuid);
             expect(new Date().getTime() - result.lastSeen.getTime()).toBeLessThan(3000); // db time minus now is less than 3 seconds
-            done();
         });
 
-        it("checks not existing api key", async function(done) {
+        it("checks not existing api key", async function() {
             let result: ApiKey;
             try {
                 result = await database.getApiKey("not-existing");
@@ -53,10 +52,9 @@ describe("Database ApiKey", function() {
                 expect(err.message).toMatch("nothing was updated in api-keys by \{.*?\}");
             }
             expect(result).toBeUndefined();
-            done();
         });
 
-        it("reconnects on not connected database when trying to get api key", async function(done) {
+        it("reconnects on not connected database when trying to get api key", async function() {
             try {
                 await database.disconnect();
             } catch (err) {
@@ -68,7 +66,6 @@ describe("Database ApiKey", function() {
             let result = await database.getApiKey(helpers.existingApiKey.apiKey);
             expect(result).toBeTruthy();
             expect(result.apiKey).toBe(helpers.existingApiKey.apiKey);
-            done();
         });
     });
 });

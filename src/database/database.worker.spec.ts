@@ -36,10 +36,8 @@ describe("Database Worker", function() {
             }
         })
 
-        it("checks existing worker", async function(done) {
+        it("checks existing worker", async function() {
             let worker: Worker = await database.getWorker(helpers.existingWorkerGuid);
-
-            console.log("checking worker: ", worker);
 
             // test worker data loaded from database
             expect(worker).toBeTruthy();
@@ -86,18 +84,14 @@ describe("Database Worker", function() {
             expect(worker.sessionRef.closedAt).toBeUndefined();
             expect(worker.sessionRef.failed).toBeUndefined();
             expect(worker.sessionRef.failReason).toBeUndefined();
-
-            done();
         });
 
-        it("checks that recent workers belongs to current workgroup only", async function(done) {
+        it("checks that recent workers belongs to current workgroup only", async function() {
             let defaultWorkers = await database.getRecentWorkers("default");
             expect(defaultWorkers.length).toBe(4);
 
             let otherWorkers = await database.getRecentWorkers("other");
             expect(otherWorkers.length).toBe(2);
-
-            done();
         });
     }); // end of read-only tests
 
@@ -133,7 +127,7 @@ describe("Database Worker", function() {
             }
         })
 
-        it("checks that worker was correctly persisted", async function(done) {
+        it("checks that worker was correctly persisted", async function() {
             let newWorker = new Worker(null);
             newWorker.guid = uuidv4();
             newWorker.ip = helpers.rndIp();
@@ -162,11 +156,9 @@ describe("Database Worker", function() {
             expect(worker.cpuUsage).toBe(newWorker.cpuUsage);
             expect(worker.ramUsage).toBe(newWorker.ramUsage);
             expect(worker.totalRam).toBe(newWorker.totalRam);
-
-            done();
         })
 
-        it("checks that worker was correctly upserted", async function(done) {
+        it("checks that worker was correctly upserted", async function() {
             let newWorker = new Worker(null);
             newWorker.guid = uuidv4();
             newWorker.ip = helpers.rndIp();
@@ -194,8 +186,6 @@ describe("Database Worker", function() {
             expect(worker.guid).toBe(newWorker.guid);
             expect(worker.cpuUsage).toBe(0.5);
             expect(worker.ramUsage).toBe(0.75);
-
-            done();
         })
 
         async function createOnlineAndOfflineWorkers(): Promise<Worker[]> {
@@ -230,7 +220,7 @@ describe("Database Worker", function() {
             ];
         }
 
-        it("checks that available and recent workers are returned correctly", async function(done) {
+        it("checks that available and recent workers are returned correctly", async function() {
             await createOnlineAndOfflineWorkers();
 
             let recentWorkers = await database.getRecentWorkers("default");
@@ -238,8 +228,6 @@ describe("Database Worker", function() {
 
             let availableWorkers = await database.getAvailableWorkers("default");
             expect(availableWorkers.length).toBe(1);
-
-            done();
         })
     }); // end of write tests
 });

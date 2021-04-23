@@ -275,11 +275,11 @@ export class Database implements IDatabase {
 
         let limitSessions = apiKey.workgroups[workgroup].limitSessions;
         if (limitSessions !== 9999) {
-            console.log(` >> checking open session limit according to apiKey.workgroups[${workgroup}]: `, apiKey.workgroups[workgroup]);
+            //console.log(` >> checking open session limit according to apiKey.workgroups[${workgroup}]: `, apiKey.workgroups[workgroup]);
 
             let openSessions = await this.getOpenSessions(apiKey);
             let openSessionsCount = openSessions.filter(s => s.workerRef.workgroup === workgroup).length;
-            console.log(` >> openSessionsCount: `, openSessionsCount, `, limitSessions: `, limitSessions);
+            //console.log(` >> openSessionsCount: `, openSessionsCount, `, limitSessions: `, limitSessions);
 
             if (openSessionsCount >= limitSessions) {
                 throw new Error("reached limit of open sessions");
@@ -754,7 +754,7 @@ export class Database implements IDatabase {
             let db = this._client.db(this._settings.current.databaseName);
             assert.notStrictEqual(db, null);
 
-            let opt: FindOneAndUpdateOption<any> = { w: "majority", j: true, returnOriginal: false, upsert: false };
+            let opt: FindOneAndUpdateOption<any> = { returnOriginal: false, upsert: false };
 
             let callback: MongoCallback<FindAndModifyWriteOpResultObject<any>> = function (error: MongoError, res: FindAndModifyWriteOpResultObject<any>) {
                 if (res && res.ok === 1 && res.value) {
@@ -789,7 +789,7 @@ export class Database implements IDatabase {
             let db = this._client.db(this._settings.current.databaseName);
             assert.notStrictEqual(db, null);
 
-            let opt: CollectionInsertOneOptions = { w: "majority", j: true };
+            let opt: CollectionInsertOneOptions = {};
             let callback: MongoCallback<InsertOneWriteOpResult<any>> = function (error: MongoError, res: InsertOneWriteOpResult<any>) {
                 if (res && res.result.ok === 1 && res.insertedCount === 1) {
                     resolve(ctor ? ctor(res.ops[0]) : undefined);
@@ -821,7 +821,7 @@ export class Database implements IDatabase {
             let db = this._client.db(this._settings.current.databaseName);
             assert.notStrictEqual(db, null);
 
-            let opt: UpdateOneOptions = { w: "majority", j: true, upsert: true };
+            let opt: UpdateOneOptions = { upsert: true };
             let callback: MongoCallback<UpdateWriteOpResult> = function (error: MongoError, res: UpdateWriteOpResult) {
                 if (res && res.result.ok === 1 && (res.upsertedCount === 1 || res.modifiedCount === 1)) {
                     resolve(true);
@@ -854,7 +854,7 @@ export class Database implements IDatabase {
             let db = this._client.db(this._settings.current.databaseName);
             assert.notStrictEqual(db, null);
 
-            let opt: UpdateOneOptions = { upsert: false, w: "majority", j: true };
+            let opt: UpdateOneOptions = { upsert: false };
             let callback: MongoCallback<UpdateWriteOpResult> = function (error: MongoError, res: UpdateWriteOpResult) {
                 if (res && res.result && res.result.ok === 1 && res.result.n > 0) {
                     resolve(true);
@@ -895,7 +895,7 @@ export class Database implements IDatabase {
 
             this.unsetNulls(setter);
 
-            let ops: UpdateManyOptions = { w: "majority", j: true, upsert: false };
+            let ops: UpdateManyOptions = { upsert: false };
             let callback: MongoCallback<UpdateWriteOpResult> = function (error: MongoError, res: UpdateWriteOpResult) {
                 if (res && res.modifiedCount > 0) {
                     resolve(res.modifiedCount);
@@ -934,7 +934,7 @@ export class Database implements IDatabase {
 
             this.unsetNulls(setter);
 
-            let ops: UpdateManyOptions = { w: "majority", j: true, upsert: false };
+            let ops: UpdateManyOptions = { upsert: false };
             let callback: MongoCallback<UpdateWriteOpResult> = async function (this: Database, error: MongoError, res: UpdateWriteOpResult) {
                 if (res && res.matchedCount === 0) {
                     resolve([]);

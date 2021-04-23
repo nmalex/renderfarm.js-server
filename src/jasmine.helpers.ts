@@ -9,7 +9,11 @@ import { ApiKey } from "./database/model/api_key";
 const uuidv4 = require('uuid/v4');
 
 export class JasmineSpecHelpers {
-    public existingApiKey: ApiKey = new ApiKey({ apiKey: "0000-0001", workgroups: { dev: { limitOpenSessions: 5 }, prod: { limitOpenSessions: 20 } } }) ;
+    public existingApiKey: ApiKey = new ApiKey({
+        apiKey: "0000-0001",
+        workgroups: { default: { limitOpenSessions: 5 }, other: { limitOpenSessions: 20 } },
+        userGuid: "00000000-0000-0000-0000-000000000001"
+    });
     public existingWorkgroup: string = "default";
     public existingUserGuid: string = "00000000-0000-0000-0000-000000000001";
     public existingSessionGuid: string = "00000000-1111-0000-0000-000000000001";
