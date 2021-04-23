@@ -44,8 +44,8 @@
     "rebuild": "npm run clean && npm run build",
     "dev": "NODE_ENV=dev && node ./dist/index.js",
     "prod": "NODE_ENV=prod && node ./dist/index.js",
-    "test-spec": "jasmine --config=jasmine.spec.json",
-    "test-depl": "jasmine --config=jasmine.depl.json",
+    "test-spec": "npx rimraf .test-results && jasmine --config=jasmine.spec.json",
+    "test-depl": "npx rimraf .test-results && jasmine --config=jasmine.depl.json",
     "create-database": "ts-node ./src/create-database.ts"
   },
   "repository": {
