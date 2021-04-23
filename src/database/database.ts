@@ -30,7 +30,7 @@ export class Database implements IDatabase {
     //#region common methods
     public async connect(): Promise<any> {
         try {
-            this._client = new MongoClient(this._settings.current.connectionUrl, { useNewUrlParser: true });
+            this._client = new MongoClient(this._settings.current.connectionUrl, { useNewUrlParser: true, useUnifiedTopology: true });
             return await this._client.connect();
         } catch (err) {
             this._client = null;

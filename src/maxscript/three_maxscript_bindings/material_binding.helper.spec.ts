@@ -3,7 +3,7 @@ import { parseMaterialProperty } from "./material_binding.helper";
 
 require("../../jasmine.config")();
 
-fdescribe("MaterialBindingHelper", function() {
+describe("MaterialBindingHelper", function() {
 
     describe("test1", function() {
         beforeEach(async function() {

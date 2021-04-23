@@ -22,6 +22,37 @@
       {
         "type": "node",
         "request": "launch",
+        "name": "Launch create-database",
+        "runtimeExecutable": "npm",
+        "runtimeArgs": [
+          "run",
+          "create-database"
+        ],
+        "port": 9229,
+        "skipFiles": [
+          "<node_internals>/**"
+        ],
+        "env": {
+          "NODE_ENV": "test",
+        }
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Launch Jasmine Specs via NPM",
+        "runtimeExecutable": "npm",
+        "runtimeArgs": [
+          "run",
+          "test-spec"
+        ],
+        "port": 9229,
+        "skipFiles": [
+          "<node_internals>/**"
+        ]
+      },
+      {
+        "type": "node",
+        "request": "launch",
         "name": "Debug TypeScript in Node.js",
         "preLaunchTask": "tsc: build - tsconfig.json",
         "program": "${workspaceFolder}/src/index.ts",

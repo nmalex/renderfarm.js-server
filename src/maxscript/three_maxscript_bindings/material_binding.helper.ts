@@ -151,7 +151,7 @@ const numberToRGBColor = function(value: number): string {
     let i = Math.round(255 * value); // round it to int
     if (i < 0) i = 0; // clamp
     if (i > 255) i = 255; // clamp
-    i = 255 - i;
+    // i = 255 - i; // todo: hey, why did we have it before?!
     return `color ${i} ${i} ${i}`;
 }
 

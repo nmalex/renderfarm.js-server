@@ -29,13 +29,13 @@ describe("Database Job", function() {
     
         afterEach(async function() {
             try {
-                await database.disconnect();
+            //    await database.disconnect();
             } catch (err) {
                 console.log(`afterEach failed with error: ${err.message}`);
             }
         })
 
-        it("checks existing job", async function(done) {
+        fit("checks existing job", async function() {
             let job: Job = await database.getJob(helpers.existingJobGuid);
 
             console.log("checking job: ", job);
@@ -68,7 +68,7 @@ describe("Database Job", function() {
             expect(job.workerRef.totalRam).toBe(15.9);
             expect(job.workerRef.sessionGuid).toBe(helpers.existingSessionGuid);
 
-            done();
+            
         });
     }); // end of read-only tests
 
