@@ -18,6 +18,8 @@ if (!env) {
 }
 
 (async function() {
+    console.log(`Creating database for env: ${env}`);
+
     const settings = new Settings(env);
     const database = new Database(settings);
     await database.connect();
@@ -161,5 +163,6 @@ if (!env) {
     });
     try { await database.upsertWorker(worker6); } catch (exc) { /* do nothing */ }
 
+    console.log(`Done!`);
     process.exit(0);
 })();
