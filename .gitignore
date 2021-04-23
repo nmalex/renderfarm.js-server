@@ -16,3 +16,5 @@ ftp_settings.js
 
 *.png
 backup_*/
+
+.test-results/

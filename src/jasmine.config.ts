@@ -5,7 +5,7 @@ module.exports = function() {
 
     if (process.env.TEST_REP === "JUNIT") {
         var junitReporter = new reporters.JUnitXmlReporter({
-            savePath: __dirname,
+            savePath: ".test-results",
             consolidateAll: true
         });
         jasmine.getEnv().clearReporters();
