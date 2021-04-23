@@ -22,7 +22,7 @@ module.exports = function() { return {
     dev: {
         connectionUrl: "mongodb://localhost:27017/rfarm-dev",
         databaseName: "rfarm-dev",
-        collectionPrefix: "",
+        collectionPrefix: "dev",
         sessionTimeoutMinutes: 1
     },
     test: {
@@ -31,13 +31,13 @@ module.exports = function() { return {
         publicUrl: "http://localhost:8000",
         connectionUrl: "mongodb://localhost:27017/rfarm-test",
         databaseName: "rfarm-test",
-        collectionPrefix: "",
+        collectionPrefix: "test",
         sessionTimeoutMinutes: 5,
     },
     prod: {
         connectionUrl: "mongodb://localhost:27017/rfarm-prod",
         databaseName: "rfarm-prod",
-        collectionPrefix: "",
+        collectionPrefix: "prod",
         sessionTimeoutMinutes: 30
     }
 } };
