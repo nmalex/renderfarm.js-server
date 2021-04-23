@@ -41,10 +41,11 @@
   "scripts": {
     "clean": "npx rimraf dist",
     "build": "node ./node_modules/typescript/bin/tsc",
-    "dev": "npm run build && export NODE_ENV=dev && node ./dist/index.js",
-    "dev2": "npm run build && export NODE_ENV=dev2 && node ./dist2/index.js",
-    "test-spec": "npm run clean && npm run build && jasmine --config=jasmine.spec.json",
-    "test-depl": "npm run clean && npm run build && jasmine --config=jasmine.depl.json",
+    "rebuild": "npm run clean && npm run build",
+    "dev": "NODE_ENV=dev && node ./dist/index.js",
+    "prod": "NODE_ENV=prod && node ./dist/index.js",
+    "test-spec": "jasmine --config=jasmine.spec.json",
+    "test-depl": "jasmine --config=jasmine.depl.json",
     "create-database": "ts-node ./src/create-database.ts"
   },
   "repository": {
