@@ -33,6 +33,7 @@
     "ftp": "^0.3.10",
     "jasmine": "^3.7.0",
     "jasmine-reporters": "^2.3.2",
+    "jasmine-xml-reporter": "^1.2.1",
     "rimraf": "^3.0.2",
     "tmp": "0.0.33",
     "ts-node": "^9.1.1",

@@ -1,11 +1,21 @@
 module.exports = function() {
     var reporters = require('jasmine-reporters');
 
-    var reporter = new reporters.TeamCityReporter({
-        savePath: __dirname,
-        consolidateAll: true
-    });
+    console.log(`Hint: Set jasmine reporters: TEST_REP=[JUNIT|TEAMCITY]`);
 
-    //jasmine.getEnv().clearReporters();
-    //jasmine.getEnv().addReporter(reporter);
+    if (process.env.TEST_REP === "JUNIT") {
+        var junitReporter = new reporters.JUnitXmlReporter({
+            savePath: __dirname,
+            consolidateAll: true
+        });
+        jasmine.getEnv().clearReporters();
+        jasmine.getEnv().addReporter(reporter);
+    } else if (process.env.TEST_REP === "TEAMCITY") {
+        var reporter = new reporters.TeamCityReporter({
+            savePath: __dirname,
+            consolidateAll: true
+        });
+        jasmine.getEnv().clearReporters();
+        jasmine.getEnv().addReporter(reporter);
+    }
 };
