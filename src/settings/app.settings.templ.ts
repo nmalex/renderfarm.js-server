@@ -1,5 +1,5 @@
 module.exports = function() { return {
-    version: "1.3.2",
+    version: "1.3.3",
     common: {
         workgroup: "default",
         host: "localhost",
@@ -24,5 +24,16 @@ module.exports = function() { return {
         databaseName: "rfarmdev",
         collectionPrefix: "dev",
         sessionTimeoutMinutes: 5
+    },
+    test: {
+        heartbeatPort: 0,
+        protocol: "http",
+        publicUrl: "http://localhost:8000",
+        connectionUrl: "mongodb://localhost:27017/rfarm",
+        databaseName: "rfarm",
+        collectionPrefix: "test",
+        sessionTimeoutMinutes: 15,
+    },
+    prod: {
     }
 } };
