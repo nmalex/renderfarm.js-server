@@ -9,13 +9,13 @@ module.exports = function() {
             consolidateAll: true
         });
         jasmine.getEnv().clearReporters();
-        jasmine.getEnv().addReporter(reporter);
+        jasmine.getEnv().addReporter(junitReporter);
     } else if (process.env.TEST_REP === "TEAMCITY") {
-        var reporter = new reporters.TeamCityReporter({
+        var teamCityReporter = new reporters.TeamCityReporter({
             savePath: __dirname,
             consolidateAll: true
         });
         jasmine.getEnv().clearReporters();
-        jasmine.getEnv().addReporter(reporter);
+        jasmine.getEnv().addReporter(teamCityReporter);
     }
 };
