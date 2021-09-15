@@ -35,7 +35,7 @@ export class WorkerService extends EventEmitter implements IWorkerService {
         if (this._settings.current.heartbeatPort > 0) {
             console.log(`heartbeatPort: ${this._settings.current.heartbeatPort}`);
             this.StartListener( this._settings.current.heartbeatPort );
-            this.StartWorkerWatchdogTimer(this._settings.current.workerTimeoutSeconds)
+            this.StartWorkerWatchdogTimer(this._settings.current.workerTimeoutSeconds);
         } else {
             console.log(`heartbeatPort is ${this._settings.current.heartbeatPort}, this instance will not accept worker heartbeats`);
         }
@@ -128,7 +128,7 @@ export class WorkerService extends EventEmitter implements IWorkerService {
             let newWorker = new Worker(null);
             newWorker.guid = uuidv4();
             newWorker.mac = rec.mac;
-            newWorker.ip = rinfo.address;
+            newWorker.ip = rec.external_ip;
             newWorker.port = rec.port;
             newWorker.firstSeen = new Date();
             newWorker.lastSeen = new Date();
@@ -141,7 +141,7 @@ export class WorkerService extends EventEmitter implements IWorkerService {
 
             this.emit("worker:added", newWorker);
 
-            console.log(`    OK | new worker, ${msg} from ${rinfo.address}:${rinfo.port}`);
+            console.log(`    OK | new worker ${rec.external_ip}:${rec.port}, ${msg} from ${rinfo.address}:${rinfo.port}`);
         }
     }
 
@@ -182,7 +182,7 @@ export class WorkerService extends EventEmitter implements IWorkerService {
 
                 this.emit("spawner:added", newVraySpawner);
 
-                console.log(`new vray spawner: ${msg} from ${rinfo.address}`);
+                console.log(`new vray spawner: ${msg} from ${rinfo.address}:${rinfo.port}`);
             }
         }
     }
