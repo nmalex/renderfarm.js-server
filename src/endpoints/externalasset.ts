@@ -54,7 +54,7 @@ class ExternalAssetEndpoint implements IEndpoint {
                 url: url,
                 responseType: 'stream'
             }).then(function (response) {
-                console.log(` >> response: `, response);
+                console.log(` >> response: `, response.status, response.statusText);
                 res.set('content-length', response.headers['content-length'])
                 res.set('content-type', response.headers['content-type'])
                 response.data.pipe(res);

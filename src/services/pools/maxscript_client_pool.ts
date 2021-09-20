@@ -87,7 +87,7 @@ export class MaxScriptClientPool extends SessionPoolBase<IMaxscriptClient> {
                 await maxscript.saveScene(dumpSceneAs, closedSession.workspaceRef);
             }
             await maxscript.dumpScene(`C:\\\\Temp\\\\${dumpSceneAs}`);
-            await maxscript.resetScene();
+            await maxscript.exitApp();
             maxscript.disconnect();
         } catch (err) {
             console.log(`  WARN | client.disconnect threw exception, `, err);

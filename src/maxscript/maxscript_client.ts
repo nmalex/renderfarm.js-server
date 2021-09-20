@@ -155,6 +155,14 @@ class MaxscriptClient implements IMaxscriptClient {
         return this.execMaxscript(maxscript, "dumpScene");
     }
 
+    exitApp(): Promise<boolean> {
+        let maxscript =
+            `quitMAX #noPrompt ; \r\n`;
+
+        console.log(" >> maxscript: \r\n", maxscript);
+        return this.execMaxscript(maxscript, "exitApp");
+    }
+
     xrefScene(maxSceneFilename: string, workspace: Workspace, nodeName: string): Promise<boolean> {
         // see here: http://docs.autodesk.com/3DSMAX/14/ENU/MAXScript%20Help%202012//index.html?url=files/GUID-3265908F-28AB-441E-9866-071BBEDD9FF-1053.htm,topicNumber=d28e344839
 
