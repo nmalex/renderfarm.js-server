@@ -81,6 +81,7 @@ export interface IMaxscriptClient {
     execMaxscript(maxscript: string, actionDesc: string): Promise<boolean>;
 
     resetScene(): Promise<boolean>;
+    exitApp(): Promise<boolean>;
     openScene(maxSceneFilename: string, workspace: Workspace): Promise<boolean>;
     saveScene(maxSceneFilename: string, workspace: Workspace): Promise<boolean>;
     dumpScene(maxSceneFilename: string): Promise<boolean>;
